@@ -1,0 +1,14 @@
+# Initialize and add two files.
+I prelude1.in
++ ineed.txt wug.txt
+> add ineed.txt
+<<<
++ tostudy.txt wug2.txt
+> add tostudy.txt
+<<<
++ forother.txt wug3.txt
+> add forother.txt
+<<<
++ classes.txt notwug.txt
+> add classes.txt
+<<<

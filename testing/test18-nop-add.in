@@ -1,0 +1,5 @@
+# Check that adding a tracked, unchanged file has no effect.
+I setup2.in
+> add f.txt
+<<<
+I blank-status.in

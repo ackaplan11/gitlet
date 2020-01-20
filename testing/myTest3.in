@@ -1,0 +1,61 @@
+I mySetup.in
+
+> rm classes.txt
+<<<
+> add classes.txt
+<<<
+> status
+=== Branches ===
+*master
+
+=== Staged Files ===
+classes.txt
+forother.txt
+ineed.txt
+tostudy.txt
+
+=== Removed Files ===
+
+=== Modifications Not Staged For Commit ===
+
+=== Untracked Files ===
+
+<<<
+
+> rm classes.txt
+<<<
+
+> status
+=== Branches ===
+*master
+
+=== Staged Files ===
+forother.txt
+ineed.txt
+tostudy.txt
+
+=== Removed Files ===
+
+=== Modifications Not Staged For Commit ===
+
+=== Untracked Files ===
+classes.txt
+
+<<<
+
+> commit "ineed tostudy forother"
+<<<
+> status
+=== Branches ===
+*master
+
+=== Staged Files ===
+
+=== Removed Files ===
+
+=== Modifications Not Staged For Commit ===
+
+=== Untracked Files ===
+classes.txt
+
+<<<

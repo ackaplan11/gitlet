@@ -1,0 +1,14 @@
+I mySetup.in
+> commit "ineed tostudy forother classes"
+<<<
++ forother.txt notwug.txt
+> add forother.txt
+<<<
+> rm classes.txt
+<<<
+> commit "ineed tostudy forother"
+<<<
+= ineed.txt wug.txt
+= tostudy.txt wug2.txt
+= forother.txt  notwug.txt
+* classes.txt

@@ -1,0 +1,124 @@
+Gitlet Design Document
+----------------------
+
+Classes and Data Structures
+---------------------------
+**** Blob ****
+
+This class represents the contents of a file in the working directory.
+Blob implements Serializable.
+
+** Fields **
+
+1. String fileContents: string of byte[] of the file contents read by readContentsAsString().
+2. String fileName: string identifier for the name of the file whose information is stored in fileContents.
+3. Boolean rm: tracks whether blob is marked for removal, default to false.
+4. String shaCode: unique string identifier created using the SHA-1 HashCode, factors in the
+   fileContents and fileName.
+
+
+**** Commit ****
+
+This class represents the snapshot of the current project state.
+Commit implements Serializable.
+
+** Fields **
+
+1. String timestamp: string identifier for the exact time that the current commit was made.
+2. String message: string identifier with the message associated with the current commit.
+3. Commit prev: pointer to the previous commit on the same branch. The connection of these.
+   pointers is what creates the structure of the commit tree.
+4. Hashtable data: hashtable holding references to the file names of the blobs in the commit,
+   and the SHA-1 code for that particular blob.
+        * Allow for easy comparisons between commits.
+        * Allow for easy access to file in a current commit running checkout [file-name].
+        * Allow for easy access to old file version in previous commit running checkout [commit-id] [file-name].
+5. String shaCode: unique string identifier created using the SHA-1 HashCode, factors in.
+   timestamp, message, parent commit pointer, and blob HashMap.
+
+
+**** Branch ****
+
+This class acts as a pointer to commits on the commit tree.
+'Head' is a special branch that points to a branch instead of a commit.
+Branch implements Serializable.
+
+** Fields **
+
+1. String name: string identifier for the unique branch name.
+2. Commit pointer: pointer to most recent commit object on the branch.
+3. Branch currentBranch: pointer to branch that 'Head' branch currently points to.
+
+
+**** StagingArea ****
+
+This class represents a HashMap between blob fileName and blob shaCode.
+StagingArea implements Serializable.
+
+** Fields **
+
+1. String name: string identifier for the unique branch name.
+2. Commit pointer: pointer to most recent commit object on the branch.
+3. Branch currentBranch: pointer to branch that 'Head' branch currently points to.
+
+
+**** Repository ****
+
+This class represents the Gitlet repository.
+No Repository class object ever written into a file, Repository constructor functions as init().
+All class methods static -> arguments from Main passed into methods.
+
+** Fields **
+
+1. Branch head: Branch instance of HEAD.
+2. StagingArea stagingArea: instance of Staging area.
+
+
+Algorithms
+----------
+**** Blob Class ****
+
+1. Blob(File file, String fileName): class constructor
+        * Parse file into string fileContents using readContentsAsString(file).
+        * Write BLob SHA-1 Code using concatenation of fileContents and fileName.
+
+**** Commit Class ****
+
+1. createShaCode(): creates unique SHA-1 code to identify commit
+        * Create byte[] representation of Commit using serialize(this)
+        * Create new SHA-1 code using sha1((Object) byte[]) and returns String.
+
+2. updateData(HashMap<String,String): updates the data HashMap of the commit, which is initialized
+   with the data HashMap of the previous commit, with the contents of the StagingArea HashMap
+        * Loop through the StagingArea HashMap key set, which is Strings of Blob fileNames.
+        * Assign String value newSha to the Blob object shaCode using HashMap.get(key)
+        * If the key value exists in parent Commits Data HashMap -
+            * Compare the parent Commit Blob shaCode to newSha.
+                * Replace key value with newSha if !newSha.equals(prevSha).
+        * Else put(String fileName, String newSha).
+        * Reassign shaCode instance to an updated shaCode using createShaCode().
+
+
+Persistence
+-----------
+In order to maintain repository persistence, any method that changes the state of Blob, Commit,
+Branch, and StagingArea class objects will use Utils.readObject to retrieve the current state of
+the object from its corresponding, file if the file exists, at the beginning of the method. After
+the method runs, use Utils.writeObject to update the Java class object's corresponding file, or
+create a new file if needed.
+
+Java Object     Location            File Name
+
+Blob            .gitlet/objects     Blob.shaCode (instance)
+Commit          .gitlet/commits     Commit.shaCode (instance)
+Branch          .gitlet/refs        Branch.name (instance)
+Head            .gitlet             HEAD
+StagingArea     .gitlet             index
+
+The checkout [branch], checkout -- [file], and checkout [commitID] -- [file] commands requires
+destructively writing a given File from the a commit to the corresponding file in the Working Directory.
+This requires getting the Blob shaCode Commit.data.get(fileName), finding the corresponding Blob file
+in .gitlet/refs, and reading the contents of the file on to the file in the Working Directory using
+Utils.writeObject
+
+- - - - - - Continue Updating - - - - -

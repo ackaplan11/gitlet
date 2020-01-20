@@ -1,0 +1,32 @@
+I mySetup.in
+> rm ineed.txt
+<<<
+> rm tostudy.txt
+<<<
+> rm forother.txt
+<<<
+> rm classes.txt
+<<<
+> commit "nothing staged"
+No changes added to the commit.
+<<<
+> branch math53
+<<<
+> status
+=== Branches ===
+*master
+math53
+
+=== Staged Files ===
+
+=== Removed Files ===
+
+=== Modifications Not Staged For Commit ===
+
+=== Untracked Files ===
+classes.txt
+forother.txt
+ineed.txt
+tostudy.txt
+
+<<<

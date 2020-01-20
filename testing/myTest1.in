@@ -1,0 +1,11 @@
+I mySetup.in
++ ineed.txt wug2.txt
+> add ineed.txt
+<<<
+> rm classes.txt
+<<<
+> commit "ineed tostudy forother"
+<<<
+= classes.txt notWug.txt
+= ineed.txt wug2.txt
+= tostudy.txt wug2.txt
